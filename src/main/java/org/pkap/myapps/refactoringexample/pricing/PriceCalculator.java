@@ -17,7 +17,7 @@ public class PriceCalculator {
             BigDecimal productPrice = calculatePriceWithVat(product, countryCode);
             totalPrice = totalPrice.add(productPrice);
         }
-        totalPrice = totalPrice.subtract(totalPrice.multiply(discountRate).setScale(2, RoundingMode.HALF_UP));
+        totalPrice = applyDiscount(totalPrice, discountRate);
         return totalPrice;
     }
 
@@ -40,6 +40,10 @@ public class PriceCalculator {
             vatRate = new BigDecimal("0.20");
         }
         return vatRate;
+    }
+
+    private BigDecimal applyDiscount(BigDecimal totalPrice, BigDecimal discountRate) {
+        return totalPrice.subtract(totalPrice.multiply(discountRate).setScale(2, RoundingMode.HALF_UP));
     }
 
 }
