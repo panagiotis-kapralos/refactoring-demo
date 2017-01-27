@@ -26,7 +26,8 @@ public class PriceCalculator {
         BigDecimal productPrice = priceList.getPriceFor(product);
         BigDecimal vatRate = vatRates.getFor(countryCode);
         if (vatRate != null) {
-            productPrice = productPrice.add(productPrice.multiply(vatRate).setScale(2, RoundingMode.HALF_UP));
+            BigDecimal vat = productPrice.multiply(vatRate).setScale(2, RoundingMode.HALF_UP);
+            productPrice = productPrice.add(vat);
         }
         return productPrice;
     }
