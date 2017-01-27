@@ -33,7 +33,8 @@ public class PriceCalculator {
     }
 
     private BigDecimal applyDiscount(BigDecimal totalPrice, BigDecimal discountRate) {
-        return totalPrice.subtract(totalPrice.multiply(discountRate).setScale(2, RoundingMode.HALF_UP));
+        BigDecimal discount = totalPrice.multiply(discountRate).setScale(2, RoundingMode.HALF_UP);
+        return totalPrice.subtract(discount);
     }
 
 }
