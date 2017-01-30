@@ -2,13 +2,19 @@ package org.pkap.myapps.refactoringexample.pricing;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PriceCalculator {
 
     private PriceList priceList;
+    private Map<String, BigDecimal> vatRates = new HashMap<>();
 
     public PriceCalculator(PriceList priceList) {
         this.priceList = priceList;
+        vatRates.put("GR", new BigDecimal("0.24"));
+        vatRates.put("DE", new BigDecimal("0.19"));
+        vatRates.put("FR", new BigDecimal("0.20"));
     }
 
     public BigDecimal calculatePrice(Order order, String countryCode) {
@@ -29,17 +35,10 @@ public class PriceCalculator {
     }
 
     private BigDecimal getVatRateFor(String countryCode) {
-        BigDecimal vatRate;
-        if ("GR".equals(countryCode)) {
-            vatRate = new BigDecimal("0.24");
-        } else if ("DE".equals(countryCode)) {
-            vatRate = new BigDecimal("0.19");
-        } else if ("FR".equals(countryCode)) {
-            vatRate = new BigDecimal("0.20");
-        } else {
+        if (!vatRates.containsKey(countryCode)) {
             throw new UnsupportedCountryException(countryCode);
         }
-        return vatRate;
+        return vatRates.get(countryCode);
     }
 
 }
