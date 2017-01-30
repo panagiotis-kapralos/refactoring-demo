@@ -19,7 +19,7 @@ public class PriceCalculatorTest {
     @Test
     public void testCalculatePriceGreece() {
         Order order = new Order("P1", "P2", "P3");
-        BigDecimal price = calc.calculatePrice(order, "GR", new BigDecimal("0.00"));
+        BigDecimal price = calc.calculatePrice(order, "GR");
 
         assertEquals("238.29", price.toPlainString());
     }
@@ -27,7 +27,7 @@ public class PriceCalculatorTest {
     @Test
     public void testCalculatePriceGermany() {
         Order order = new Order("P1", "P2", "P3");
-        BigDecimal price = calc.calculatePrice(order, "DE", new BigDecimal("0.00"));
+        BigDecimal price = calc.calculatePrice(order, "DE");
 
         assertEquals("228.68", price.toPlainString());
     }
@@ -35,9 +35,15 @@ public class PriceCalculatorTest {
     @Test
     public void testCalculatePriceFranceWithDiscount() {
         Order order = new Order("P1", "P2", "P3");
-        BigDecimal price = calc.calculatePrice(order, "FR", new BigDecimal("0.33"));
+        BigDecimal price = calc.calculatePrice(order, "FR");
 
-        assertEquals("154.50", price.toPlainString());
+        assertEquals("230.60", price.toPlainString());
+    }
+
+    @Test(expected=UnsupportedCountryException.class)
+    public void testCalculatePriceForUnsupportedCountry() {
+        Order order = new Order("P1");
+        calc.calculatePrice(order, "XX");
     }
 
 }
