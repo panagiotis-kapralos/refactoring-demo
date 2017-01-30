@@ -25,19 +25,15 @@ public class PriceCalculator {
         BigDecimal vatRate;
         if ("GR".equals(countryCode)) {
             vatRate = new BigDecimal("0.24");
-            productPrice = productPrice.add(productPrice.multiply(
-                    vatRate).setScale(2, RoundingMode.HALF_UP));
         } else if ("DE".equals(countryCode)) {
             vatRate = new BigDecimal("0.19");
-            productPrice = productPrice.add(productPrice.multiply(
-                    vatRate).setScale(2, RoundingMode.HALF_UP));
         } else if ("FR".equals(countryCode)) {
             vatRate = new BigDecimal("0.20");
-            productPrice = productPrice.add(productPrice.multiply(
-                    vatRate).setScale(2, RoundingMode.HALF_UP));
         } else {
             throw new UnsupportedCountryException(countryCode);
         }
+        productPrice = productPrice.add(productPrice.multiply(vatRate)
+                .setScale(2, RoundingMode.HALF_UP));
         return productPrice;
     }
 
