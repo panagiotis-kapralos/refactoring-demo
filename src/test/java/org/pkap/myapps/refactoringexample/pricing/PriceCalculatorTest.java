@@ -9,9 +9,9 @@ import static org.junit.Assert.assertEquals;
 public class PriceCalculatorTest {
 
     private PriceList priceList = new PriceList(
-            "P1", "100.00",
-            "P2", "50.00",
-            "P3", "42.17"
+            "P1", "5.73",
+            "P2", "9.98",
+            "P3", "10.73"
     );
 
     private PriceCalculator calc = new PriceCalculator(priceList);
@@ -21,7 +21,7 @@ public class PriceCalculatorTest {
         Order order = new Order("P1", "P2", "P3");
         BigDecimal price = calc.calculatePrice(order, "GR");
 
-        assertEquals("238.29", price.toPlainString());
+        assertEquals("32.80", price.toPlainString());
     }
 
     @Test
@@ -29,15 +29,15 @@ public class PriceCalculatorTest {
         Order order = new Order("P1", "P2", "P3");
         BigDecimal price = calc.calculatePrice(order, "DE");
 
-        assertEquals("228.68", price.toPlainString());
+        assertEquals("31.47", price.toPlainString());
     }
 
     @Test
-    public void testCalculatePriceFranceWithDiscount() {
+    public void testCalculatePriceFrance() {
         Order order = new Order("P1", "P2", "P3");
         BigDecimal price = calc.calculatePrice(order, "FR");
 
-        assertEquals("230.60", price.toPlainString());
+        assertEquals("31.74", price.toPlainString());
     }
 
     @Test(expected=UnsupportedCountryException.class)
