@@ -18,15 +18,16 @@ class PriceCalculator {
 
     private BigDecimal calculatePriceWithVat(Product product, String country) {
         BigDecimal productPrice = priceList.getPriceFor(product);
+        BigDecimal vatRate;
         if ("GR".equals(country)) {
-            productPrice = productPrice.add(productPrice.multiply(
-                    new BigDecimal("0.24")).setScale(2, HALF_UP));
+            vatRate = new BigDecimal("0.24");
+            productPrice = productPrice.add(productPrice.multiply(vatRate).setScale(2, HALF_UP));
         } else if ("DE".equals(country)) {
-            productPrice = productPrice.add(productPrice.multiply(
-                    new BigDecimal("0.19")).setScale(2, HALF_UP));
+            vatRate = new BigDecimal("0.19");
+            productPrice = productPrice.add(productPrice.multiply(vatRate).setScale(2, HALF_UP));
         } else if ("FR".equals(country)) {
-            productPrice = productPrice.add(productPrice.multiply(
-                    new BigDecimal("0.20")).setScale(2, HALF_UP));
+            vatRate = new BigDecimal("0.20");
+            productPrice = productPrice.add(productPrice.multiply(vatRate).setScale(2, HALF_UP));
         } else {
             throw new UnsupportedCountryException(country);
         }
