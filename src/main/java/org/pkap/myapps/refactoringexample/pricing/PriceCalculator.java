@@ -20,6 +20,12 @@ class PriceCalculator {
             } else if ("FR".equals(country)) {
                 productPrice = productPrice.add(productPrice.multiply(
                         new BigDecimal("0.20")).setScale(2, HALF_UP));
+            } else if ("IT".equals(country)) {
+                productPrice = productPrice.add(productPrice.multiply(
+                        new BigDecimal("0.22")).setScale(2, HALF_UP));
+            } else if ("IE".equals(country)) {
+                productPrice = productPrice.add(productPrice.multiply(
+                        new BigDecimal("0.23")).setScale(2, HALF_UP));
             } else {
                 throw new UnsupportedCountryException(country);
             }
