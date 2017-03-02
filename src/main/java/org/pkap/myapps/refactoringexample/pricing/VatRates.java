@@ -11,6 +11,8 @@ class VatRates {
         vatRates.put("GR", new BigDecimal("0.24"));
         vatRates.put("DE", new BigDecimal("0.19"));
         vatRates.put("FR", new BigDecimal("0.20"));
+        vatRates.put("IT", new BigDecimal("0.22"));
+        vatRates.put("IE", new BigDecimal("0.23"));
     }
 
     BigDecimal getVatRateFor(String country) {
