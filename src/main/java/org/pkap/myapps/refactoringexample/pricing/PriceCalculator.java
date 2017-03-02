@@ -7,6 +7,7 @@ import java.util.Map;
 import static java.math.RoundingMode.HALF_UP;
 
 class PriceCalculator {
+    private VatRates vatRates = new VatRates();
     private PriceList priceList;
     PriceCalculator(PriceList priceList) { this.priceList = priceList; }
 
@@ -21,19 +22,8 @@ class PriceCalculator {
 
     private BigDecimal calculatePriceWithVat(Product product, String country) {
         BigDecimal productPrice = priceList.getPriceFor(product);
-        BigDecimal vatRate = getVatRateFor(country);
+        BigDecimal vatRate = vatRates.getVatRateFor(country);
         productPrice = productPrice.add(productPrice.multiply(vatRate).setScale(2, HALF_UP));
         return productPrice;
-    }
-
-    private BigDecimal getVatRateFor(String country) {
-        Map<String, BigDecimal> vatRates = new HashMap<>();
-        vatRates.put("GR", new BigDecimal("0.24"));
-        vatRates.put("DE", new BigDecimal("0.19"));
-        vatRates.put("FR", new BigDecimal("0.20"));
-        if (!vatRates.containsKey(country)) {
-            throw new UnsupportedCountryException(country);
-        }
-        return vatRates.get(country);
     }
 }
