@@ -10,21 +10,26 @@ class PriceCalculator {
     BigDecimal calculatePrice(Order order, String country) {
         BigDecimal totalPrice = new BigDecimal("0.00");
         for (Product product : order.getProducts()) {
-            BigDecimal productPrice = priceList.getPriceFor(product);
-            if ("GR".equals(country)) {
-                productPrice = productPrice.add(productPrice.multiply(
-                        new BigDecimal("0.24")).setScale(2, HALF_UP));
-            } else if ("DE".equals(country)) {
-                productPrice = productPrice.add(productPrice.multiply(
-                        new BigDecimal("0.19")).setScale(2, HALF_UP));
-            } else if ("FR".equals(country)) {
-                productPrice = productPrice.add(productPrice.multiply(
-                        new BigDecimal("0.20")).setScale(2, HALF_UP));
-            } else {
-                throw new UnsupportedCountryException(country);
-            }
+            BigDecimal productPrice = calculatePriceWithVat(product, country);
             totalPrice = totalPrice.add(productPrice);
         }
         return totalPrice;
+    }
+
+    private BigDecimal calculatePriceWithVat(Product product, String country) {
+        BigDecimal productPrice = priceList.getPriceFor(product);
+        if ("GR".equals(country)) {
+            productPrice = productPrice.add(productPrice.multiply(
+                    new BigDecimal("0.24")).setScale(2, HALF_UP));
+        } else if ("DE".equals(country)) {
+            productPrice = productPrice.add(productPrice.multiply(
+                    new BigDecimal("0.19")).setScale(2, HALF_UP));
+        } else if ("FR".equals(country)) {
+            productPrice = productPrice.add(productPrice.multiply(
+                    new BigDecimal("0.20")).setScale(2, HALF_UP));
+        } else {
+            throw new UnsupportedCountryException(country);
+        }
+        return productPrice;
     }
 }
