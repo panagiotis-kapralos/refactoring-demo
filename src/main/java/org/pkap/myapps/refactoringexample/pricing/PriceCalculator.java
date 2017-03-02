@@ -1,35 +1,30 @@
 package org.pkap.myapps.refactoringexample.pricing;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
+import static java.math.RoundingMode.HALF_UP;
 
-public class PriceCalculator {
-
+class PriceCalculator {
     private PriceList priceList;
+    PriceCalculator(PriceList priceList) { this.priceList = priceList; }
 
-    public PriceCalculator(PriceList priceList) {
-        this.priceList = priceList;
-    }
-
-    public BigDecimal calculatePrice(Order order, String countryCode) {
+    BigDecimal calculatePrice(Order order, String country) {
         BigDecimal totalPrice = new BigDecimal("0.00");
         for (Product product : order.getProducts()) {
             BigDecimal productPrice = priceList.getPriceFor(product);
-            if ("GR".equals(countryCode)) {
+            if ("GR".equals(country)) {
                 productPrice = productPrice.add(productPrice.multiply(
-                        new BigDecimal("0.24")).setScale(2, RoundingMode.HALF_UP));
-            } else if ("DE".equals(countryCode)) {
+                        new BigDecimal("0.24")).setScale(2, HALF_UP));
+            } else if ("DE".equals(country)) {
                 productPrice = productPrice.add(productPrice.multiply(
-                        new BigDecimal("0.19")).setScale(2, RoundingMode.HALF_UP));
-            } else if ("FR".equals(countryCode)) {
+                        new BigDecimal("0.19")).setScale(2, HALF_UP));
+            } else if ("FR".equals(country)) {
                 productPrice = productPrice.add(productPrice.multiply(
-                        new BigDecimal("0.20")).setScale(2, RoundingMode.HALF_UP));
+                        new BigDecimal("0.20")).setScale(2, HALF_UP));
             } else {
-                throw new UnsupportedCountryException(countryCode);
+                throw new UnsupportedCountryException(country);
             }
             totalPrice = totalPrice.add(productPrice);
         }
         return totalPrice;
     }
-
 }
