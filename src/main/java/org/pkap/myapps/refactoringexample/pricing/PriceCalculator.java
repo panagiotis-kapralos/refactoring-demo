@@ -18,6 +18,12 @@ class PriceCalculator {
 
     private BigDecimal calculatePriceWithVat(Product product, String country) {
         BigDecimal productPrice = priceList.getPriceFor(product);
+        BigDecimal vatRate = getVatRateFor(country);
+        productPrice = productPrice.add(productPrice.multiply(vatRate).setScale(2, HALF_UP));
+        return productPrice;
+    }
+
+    private BigDecimal getVatRateFor(String country) {
         BigDecimal vatRate;
         if ("GR".equals(country)) {
             vatRate = new BigDecimal("0.24");
@@ -28,7 +34,6 @@ class PriceCalculator {
         } else {
             throw new UnsupportedCountryException(country);
         }
-        productPrice = productPrice.add(productPrice.multiply(vatRate).setScale(2, HALF_UP));
-        return productPrice;
+        return vatRate;
     }
 }
