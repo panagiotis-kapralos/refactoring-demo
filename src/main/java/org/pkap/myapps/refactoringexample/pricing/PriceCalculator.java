@@ -21,16 +21,14 @@ class PriceCalculator {
         BigDecimal vatRate;
         if ("GR".equals(country)) {
             vatRate = new BigDecimal("0.24");
-            productPrice = productPrice.add(productPrice.multiply(vatRate).setScale(2, HALF_UP));
         } else if ("DE".equals(country)) {
             vatRate = new BigDecimal("0.19");
-            productPrice = productPrice.add(productPrice.multiply(vatRate).setScale(2, HALF_UP));
         } else if ("FR".equals(country)) {
             vatRate = new BigDecimal("0.20");
-            productPrice = productPrice.add(productPrice.multiply(vatRate).setScale(2, HALF_UP));
         } else {
             throw new UnsupportedCountryException(country);
         }
+        productPrice = productPrice.add(productPrice.multiply(vatRate).setScale(2, HALF_UP));
         return productPrice;
     }
 }
